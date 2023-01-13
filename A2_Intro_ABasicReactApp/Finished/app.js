@@ -20,7 +20,7 @@ function Counter(props) {
     return (
         <article>
             <h2>Counter {props.name}</h2>
-            <p>You clicked {count} times</p>
+            <p>You clicked <em>{count}</em> times</p>
             <button onClick={() => setCount(count + 1)}>
                 Click me
             </button>
