@@ -1,20 +1,21 @@
-let counterName = 'Counter';
+let counter = { name: 'Counter' };
 let counterValue = 1;
 
-function pureCounter(name, value) {
-    console.log(`${ name } ${ value }`);
+function pureCounter(ctr, value) {
+    return `${ ctr.name } ${ value }`;
 }
 
-function notPureCounter(name, value) {
-    name = 'Tony';
-    console.log(`${ name } ${ value }`);
+function notPureCounter(ctr, value) {
+    ctr.name = ctr.name + ' Tony';
     counterValue = counterValue + 1;
+    return `${ ctr.name } ${ value }`;
 }
 
-pureCounter(counterName, counterValue);
-pureCounter(counterName, counterValue);
-pureCounter(counterName, counterValue + 1);
+console.log(pureCounter(counter, counterValue));
+console.log(pureCounter(counter, counterValue + 1));
+console.log(pureCounter(counter, counterValue));
 console.log('---');
-notPureCounter(counterName, counterValue);
-notPureCounter(counterName, counterValue);
-notPureCounter(counterName, counterValue + 1);
+console.log(notPureCounter(counter, counterValue));
+console.log(notPureCounter(counter, counterValue + 1));
+console.log(notPureCounter(counter, counterValue));
+console.log(counter);
