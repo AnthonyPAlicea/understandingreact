@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding React</title>
+    <style>
+        body {
+            font-size: 16px;
+        }
+
+        .button {
+            background-color: blue;
+            color: white;
+        }
+
+        .counter, .counter__value {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 1rem;
+        }
+
+        .counter__value {
+            margin-inline-start: 0;
+        }
+    </style>
+</head>
+<body>
+    <main id="app"></main>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="app.js" type="text/jsx"></script>
+</body>
+</html>
