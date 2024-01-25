@@ -1,0 +1,31 @@
+body {
+  font-size: 16px;
+}
+
+.button {
+  background-color: blue;
+  color: white;
+}
+
+.counter, .counter__value {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  border: none;
+  padding: 0;
+  margin: .5rem 0;
+  align-items: center;
+}
+
+.counter__legend {
+  padding: 0;
+  font-weight: bold;
+}
+
+.counter__value {
+  margin-inline-start: 0;
+}
+
+.counter__empty {
+  width: 20px;
+}
