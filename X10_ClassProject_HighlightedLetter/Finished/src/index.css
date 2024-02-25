@@ -1,0 +1,159 @@
+body {
+  font-size: 16px;
+}
+
+.title  {
+  margin: 0;
+}
+
+.date, .editor {
+  font-size: 0.875rem;
+  margin-block-start: 0.25rem;
+  margin-block-end: 0.25rem;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.score {
+  font-weight: bold;
+}
+
+.inputs {
+  width: 80vw;
+  max-width: 290px;
+}
+
+.center {
+  width: 90%;
+  margin: 25px auto;
+}
+
+.correctGuesses {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px auto 8px auto;
+  border: solid 1px #ccc;
+  padding: 4px 16px;
+}
+
+.guess {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.guess-letters {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 2rem;
+}
+
+.guess-outer {
+  color: #444;
+}
+
+.guess-center {
+  color: #f7da21; 
+}
+
+.honeycomb {
+  position: relative;
+  height: 275px;
+}
+
+.cell {
+  position: absolute;
+  top: 33.3333333333%;
+  left: 30%;
+  width: 40%;
+  height: 33.3333333333%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.cell:nth-child(1) {
+  transform: translate(0, 0);
+}
+
+.cell:nth-child(2) {
+  transform: translate(-75%, -50%);
+}
+
+.cell:nth-child(3) {
+  transform: translate(0, -100%);
+}
+
+.cell:nth-child(4) {
+  transform: translate(75%, -50%);
+}
+
+.cell:nth-child(5) {
+  transform: translate(75%, 50%);
+}
+
+.cell:nth-child(6) {
+  transform: translate(0, 100%);
+}
+
+.cell:nth-child(7) {
+  transform: translate(-75%, 50%);
+}
+
+.cell-letter {
+  font-weight: 700;
+  font-size: 1.875em;
+  text-anchor: middle;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.center-letter .cell-fill {
+  cursor: pointer;
+  fill: #f7da21;
+  transition: all 100ms;
+}
+
+.outer-letter .cell-fill {
+  cursor: pointer;
+  fill: #e6e6e6;
+  transition: all 100ms;
+}
+
+.buttons {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+  width: 5.5em;
+  min-width: 5.5em;
+  height: 3em;
+  background-color: #fff;
+  font-size: 1em;
+  margin: 0 8px;
+  color: #333;
+  border: 1px solid #dcdcdc;
+  border-radius: 2.5em;
+  letter-spacing: .01em;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  margin-block-start: 1rem;
+}

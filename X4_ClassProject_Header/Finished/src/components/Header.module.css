@@ -1,0 +1,9 @@
+.title  {
+    margin: 0;
+}
+
+.date, .editor {
+    font-size: 0.875rem;
+    margin-block-start: 0.25rem;
+    margin-block-end: 0.25rem;
+}
