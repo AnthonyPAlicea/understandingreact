@@ -21,7 +21,7 @@ function App() {
 
     const increment = (index) => {
         const newData = [...counterData];
-        newData[index] = {...newData[index],total: newData[index].total + 1};
+        newData[index] = {...newData[index], total: newData[index].total + 1};
         setCounterData(newData);
     }
 
