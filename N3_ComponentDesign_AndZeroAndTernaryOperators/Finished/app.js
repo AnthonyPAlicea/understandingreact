@@ -15,20 +15,20 @@ class CounterObj {
 function App() {
     const [counterData, setCounterData] = React.useState([
         new CounterObj('A', true, 0),
-        new CounterObj('B', false, 0),
+        new CounterObj('B', true, 0),
         new CounterObj('C', true, 0)
     ]);
 
     const increment = (index) => {
         const newData = [...counterData];
-        newData[index].total = newData[index].total + 1;
+        newData[index] = {...newData[index],total: newData[index].total + 1};
         setCounterData(newData);
     }
 
     const decrement = (index) => {
         const newData = [...counterData];
         const decrementedCounter = newData[index].total - 1;
-        newData[index].total = decrementedCounter >= 0 ? decrementedCounter : 0;
+        newData[index] = {...newData[index], total: decrementedCounter >= 0 ? decrementedCounter : 0};
         setCounterData(newData);
     }
 
@@ -81,12 +81,10 @@ function Counter({ counter, index, increment, decrement }) {
         <dl className="counter">
             <dt>{counter.name}</dt>
             <dd className="counter__value">
-                <button className="button" onClick={handleDecrementClick}>
-                    -
-                </button>
                 { counter.total > 0 ? <button className="button" onClick={handleDecrementClick}>
                     -
                 </button> : <div className="counter__empty"></div> }
+                { counter.total }
                 <button className="button" onClick={handleIncrementClick}>
                     +
                 </button>
