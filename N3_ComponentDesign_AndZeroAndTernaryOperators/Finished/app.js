@@ -15,7 +15,7 @@ class CounterObj {
 function App() {
     const [counterData, setCounterData] = React.useState([
         new CounterObj('A', true, 0),
-        new CounterObj('B', true, 0),
+        new CounterObj('B', false, 0),
         new CounterObj('C', true, 0)
     ]);
 
