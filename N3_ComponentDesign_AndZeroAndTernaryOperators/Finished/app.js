@@ -21,14 +21,14 @@ function App() {
 
     const increment = (index) => {
         const newData = [...counterData];
-        newData[index] = {...newData[index], total: newData[index].total + 1};
+        newData[index].total = newData[index].total + 1;
         setCounterData(newData);
     }
 
     const decrement = (index) => {
         const newData = [...counterData];
         const decrementedCounter = newData[index].total - 1;
-        newData[index] = {...newData[index], total: decrementedCounter >= 0 ? decrementedCounter : 0};
+        newData[index].total = decrementedCounter >= 0 ? decrementedCounter : 0;
         setCounterData(newData);
     }
 
