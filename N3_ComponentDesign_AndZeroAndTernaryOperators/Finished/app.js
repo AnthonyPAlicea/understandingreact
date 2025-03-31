@@ -81,12 +81,10 @@ function Counter({ counter, index, increment, decrement }) {
         <dl className="counter">
             <dt>{counter.name}</dt>
             <dd className="counter__value">
-                <button className="button" onClick={handleDecrementClick}>
-                    -
-                </button>
                 { counter.total > 0 ? <button className="button" onClick={handleDecrementClick}>
                     -
                 </button> : <div className="counter__empty"></div> }
+                { counter.total }
                 <button className="button" onClick={handleIncrementClick}>
                     +
                 </button>
