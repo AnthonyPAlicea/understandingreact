@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding React</title>
+</head>
+
+<body>
+    <main id="app"></main>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- React Component with JSX -->
+    <script type="text/babel" data-type="module">
+        (async () => {
+            // Dynamic imports for React 19
+            const React = await import("https://esm.sh/react@19/?dev");
+            const ReactDOM = await import("https://esm.sh/react-dom@19/client?dev");
+
+            const { useState, use } = React.default;
+            const { createRoot } = ReactDOM.default;
+
+            function App() {
+                const ref = React.useRef();
+                React.useEffect(() => {
+                    ref.current.focus();
+                }, []);
+
+                return (
+                    <>
+                        <h1>Counters</h1>
+                        <section>
+                            <Counter name="One" />
+                            <Counter name="Two" ref={ref} />
+                        </section>
+                    </>
+                );
+            }
+
+            function Counter({ name, ref }) {
+
+                const [numOfClicks, setNumOfClicks] = React.useState({ total: 0 });
+
+                function handleClick() {
+                    setNumOfClicks({ ...numOfClicks, total: numOfClicks.total + 1 });
+                }
+
+                return (
+                    <article>
+                        <h2>Counter {name}</h2>
+                        <p>You clicked {numOfClicks.total} times</p>
+                        <p>
+                            <button className="button" onClick={handleClick} ref={ref}>
+                                Click me
+                            </button>
+                        </p>
+                    </article>
+                );
+            }
+
+            // Ensure DOM is ready, then render
+            const rootElement = document.getElementById('app');
+            const root = createRoot(rootElement);
+            root.render(<App />);
+        })();
+    </script>
+</body>
+
+</html>

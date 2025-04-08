@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding React</title>
+    <style>
+        body {
+            font-size: 16px;
+        }
+
+        .button {
+            background-color: blue;
+            color: white;
+        }
+
+        .counter,
+        .counter__value {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 1rem;
+        }
+
+        .counter__value {
+            margin-inline-start: 0;
+        }
+
+        .counter__empty {
+            width: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <main id="app"></main>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- React Component with JSX -->
+    <script type="text/babel" data-type="module">
+        (async () => {
+            // Dynamic imports for React 19
+            const React = await import("https://esm.sh/react@19/?dev");
+            const ReactDOM = await import("https://esm.sh/react-dom@19/client?dev");
+
+            const { useState, use } = React.default;
+            const { createRoot } = ReactDOM.default;
+
+
+            /* Objects */
+            class CounterObj {
+                constructor(id, name, tab, total) {
+                    this.id = id;
+                    this.name = name;
+                    this.tab = tab;
+                    this.total = total;
+                }
+            }
+            /* End Objects */
+
+            const CounterContext = React.createContext(null);
+            const CounterDispatchContext = React.createContext(null);
+            const TabContext = React.createContext(null);
+            const TabDispatchContext = React.createContext(null);
+
+            function counterReducer(counterData, action) {
+                switch (action.type) {
+                    case 'increment': {
+                        return counterData.map((counter) => {
+                            if (counter.id === action.id) {
+                                return { ...counter, total: counter.total + 1 };
+                            } else {
+                                return counter;
+                            }
+                        });
+                    }
+                    case 'decrement': {
+                        return counterData.map((counter) => {
+                            if (counter.id === action.id) {
+                                return { ...counter, total: counter.total >= 0 ? counter.total - 1 : 0 };
+                            } else {
+                                return counter;
+                            }
+                        });
+                    }
+                    default: {
+                        throw Error('Unknown action: ' + action.type);
+                    }
+                }
+            }
+
+            function tabReducer(visibleTab, action) {
+                switch (action.type) {
+                    case 'change-tab': {
+                        if (action.tab === visibleTab) {
+                            return visibleTab;
+                        } else {
+                            return action.tab;
+                        }
+                    }
+                    default: {
+                        throw Error('Unknown action: ' + action.type);
+                    }
+                }
+            }
+
+            function App() {
+                const [counterData, counterDispatch] = React.useReducer(counterReducer, [
+                    new CounterObj(1, 'A', 1, 0),
+                    new CounterObj(2, 'B', 2, 0),
+                    new CounterObj(3, 'C', 1, 0)
+                ]);
+
+                const [visibleTab, tabDispatch] = React.useReducer(tabReducer, 1);
+
+                return (
+                    <>
+                        <CounterContext value={counterData}>
+                            <CounterDispatchContext value={counterDispatch}>
+                                <TabContext value={visibleTab}>
+                                    <TabDispatchContext value={tabDispatch}>
+                                        <h1>Counters</h1>
+                                        <section>
+                                            <CounterList />
+                                            <CounterTools />
+                                        </section>
+                                    </TabDispatchContext>
+                                </TabContext>
+                            </CounterDispatchContext>
+                        </CounterContext>
+                    </>
+                );
+            }
+
+            function useDocumentTitle(title) {
+                return React.useEffect(() => {
+                    const originalTitle = document.title;
+                    document.title = title;
+
+                    return () => {
+                        document.title = originalTitle;
+                    }
+                }, [title]);
+            }
+
+            function CounterList() {
+                const counterData = use(CounterContext);
+                const updateTitle = useDocumentTitle("Clicks: " + counterData.map((counter) => {
+                    return counter.total;
+                }).join(', '));
+                return (
+                    <section>
+                        {counterData.map((counter) => (
+                            <Counter counter={counter} key={counter.id} />
+                        ))}
+                    </section>
+                )
+            }
+
+            function Counter({ counter }) {
+                const counterDispatch = use(CounterDispatchContext);
+                const id = React.useId();
+
+                function handleIncrementClick(event) {
+                    counterDispatch({ type: 'increment', id: counter.id });
+                    event.preventDefault();
+                }
+
+                function handleDecrementClick(event) {
+                    counterDispatch({ type: 'decrement', id: counter.id });
+                    event.preventDefault();
+                }
+
+                return (
+                    <fieldset className="counter" id={id}>
+                        <legend className="counter__legend" id={id + '-legend'}>{counter.name}</legend>
+                        {counter.total > 0 ? <button className="button" onClick={handleDecrementClick} aria-label="Decrease counter" id={id + '-decrement'}>
+                            -
+                        </button> : <div className="counter__empty"></div>}
+                        <p aria-labelledby={id + '-legend'}>{counter.total}</p>
+                        <button className="button" onClick={handleIncrementClick} aria-label="Increase counter" id={id + '-increment'}>
+                            +
+                        </button>
+                    </fieldset>
+                );
+            }
+
+            function CounterTools() {
+                return (
+                    <CounterSummary />
+                )
+            }
+
+            function CounterSummary() {
+                const counterData = use(CounterContext);
+                const visibleTab = use(TabContext);
+                const tabDispatch = use(TabDispatchContext);
+                const filteredSortedData = React.useMemo(() => {
+                    console.log("Filtering")
+                    return counterData.filter(counter => { return counter.tab === visibleTab });
+                }, [counterData, visibleTab]);
+                console.log(filteredSortedData[0].total);
+
+                const setVisibleTab1 = React.useCallback((event) => {
+                    tabDispatch({ type: 'change-tab', tab: 1 })
+                    event.preventDefault();
+                });
+
+                const setVisibleTab2 = React.useCallback((event) => {
+                    tabDispatch({ type: 'change-tab', tab: 2 })
+                    event.preventDefault();
+                });
+
+                return (
+                    <section>
+                        <CounterSummaryHeader setVisibleTab1={setVisibleTab1} setVisibleTab2={setVisibleTab2} />
+                        {filteredSortedData.map((counter) => (
+                            <CounterSummaryDetail name={counter.name} total={counter.total} key={counter.id} />
+                        ))}
+                    </section>
+                )
+            }
+
+            const CounterSummaryHeader = React.memo(function CounterSummaryHeader({ setVisibleTab1, setVisibleTab2 }) {
+                return (
+                    <header>
+                        <a href="#" onClick={setVisibleTab1}>Tab 1</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onClick={setVisibleTab2}>Tab 2</a>
+                    </header>
+                )
+            });
+
+            const CounterSummaryDetail = React.memo(function CounterSummaryDetail({ name, total }) {
+                return (
+                    <p>{name} ({total})</p>
+                )
+            });
+
+            // Ensure DOM is ready, then render
+            const rootElement = document.getElementById('app');
+            const root = createRoot(rootElement);
+            root.render(<App />);
+        })();
+    </script>
+</body>
+
+</html>
