@@ -159,12 +159,12 @@ function CounterSummary() {
     const setVisibleTab1 = React.useCallback((event) => {
         tabDispatch({ type: 'change-tab', tab: 1 })
         event.preventDefault();
-    });
+    }, []);
 
     const setVisibleTab2 = React.useCallback((event) => {
         tabDispatch({ type: 'change-tab', tab: 2 })
         event.preventDefault();
-    });
+    }, []);
 
     return (
         <section>
